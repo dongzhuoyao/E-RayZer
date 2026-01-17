@@ -33,13 +33,15 @@ The model is trained on the **DL3DV dataset**, as specified in the configuration
 ### How Many Images/Views Are Needed?
 
 #### For Training:
-Based on the training configuration in `config/erayzer.yaml`:
+From the training configuration in `config/erayzer.yaml` (check the file for current values):
 
-- **Total views per scene**: 10 views (`num_all_views: 10`, `num_views: 10`)
-- **Input views**: 5 views (`num_input_views: 5`)
-- **Target views**: 5 views (`num_target_views: 5`)
-- **Batch size**: 24 scenes per GPU (`batch_size_per_gpu: 24`)
-- **Training iterations**: 152,000 forward-backward passes (`max_fwdbwd_passes: 152000`)
+- **Total views per scene**: 10 views
+- **Input views**: 5 views (used to predict the scene)
+- **Target views**: 5 views (used for supervision)
+- **Batch size**: 24 scenes per GPU
+- **Training iterations**: ~152K forward-backward passes
+
+> **Note**: These values are from the default configuration. Always refer to `config/erayzer.yaml` for the most current training parameters.
 
 The training process uses:
 - **Covisibility-based view selection** with curriculum learning
@@ -139,10 +141,17 @@ The model uses:
 
 Two pre-trained models are available:
 
-1. **erayzer_multi.pt**: Multi-dataset model (default, more general)
-2. **erayzer_dl3dv.pt**: Model trained exclusively on DL3DV dataset
+1. **erayzer_multi.pt** (Recommended): 
+   - Trained on multiple datasets for better generalization
+   - Default model for the demo
+   - Best choice for general-purpose 3D reconstruction on diverse scenes
+   
+2. **erayzer_dl3dv.pt**: 
+   - Trained exclusively on DL3DV dataset
+   - May perform better on scenes similar to DL3DV data distribution
+   - Use if you're working specifically with DL3DV-style data
 
-Models are licensed under Adobe Research License (non-commercial use only).
+Models are licensed under Adobe Research License (non-commercial use only). Download automatically via Gradio or manually from [Hugging Face](https://huggingface.co/qitaoz/E-RayZer/tree/main/checkpoints).
 
 ---
 
@@ -161,7 +170,11 @@ Upload ~10 multi-view RGB images, and the system will:
 1. Predict camera poses for all views
 2. Reconstruct 3D geometry as Gaussian splats
 3. Generate novel view renders
-4. Export results as GLB point cloud and turntable video
+4. Export outputs:
+   - **point_cloud.glb**: 3D scene as a colored point cloud in GLB format (includes camera frustums for visualization)
+   - **render_video.mp4**: Turntable video showing novel view synthesis
+   - **pred_view_*.png**: Rendered images from predicted viewpoints
+   - **ZIP archive**: Complete bundle of all outputs
 
 ---
 
@@ -171,4 +184,4 @@ Upload ~10 multi-view RGB images, and the system will:
 - **Training data**: 10-view multi-view image sets from DL3DV dataset
 - **Inference data**: ~10 RGB images (256×256) of the same scene from different viewpoints
 - **Format**: Standard RGB images (PNG/JPG), no camera parameters required
-- **Output**: Camera poses, 3D Gaussian representation, novel view synthesis
+- **Output**: Predicted camera poses, 3D point cloud (GLB), novel view renders, and turntable video
