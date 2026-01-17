@@ -9,6 +9,16 @@
 	
 ![teaser](https://raw.githubusercontent.com/QitaoZhao/QitaoZhao.github.io/main/research/E-RayZer/images/erayzer_teaser.png)
 
+## About
+
+E-RayZer is a **self-supervised 3D vision model** that:
+- 🎯 **Predicts camera poses** from multi-view images without ground truth camera parameters
+- 🏗️ **Reconstructs 3D scenes** as Gaussian splats for high-quality rendering
+- 🔄 **Synthesizes novel views** from arbitrary camera positions
+- 📸 **Requires ~10 RGB images** of a scene from different viewpoints (no camera calibration needed)
+
+Built on transformer architecture with differentiable Gaussian splatting. For detailed information about training data requirements and format specifications, see [`DATASET_AND_TRAINING.md`](DATASET_AND_TRAINING.md).
+
 ## Repository Map
 - `gradio_app.py`: End-to-end demo UI backed by the inference engine.
 - `app_core/engine.py`: Thin wrapper that loads configs, checkpoints, and exports renders, Gaussian point clouds, and turntable videos.
@@ -16,6 +26,7 @@
 - `config/erayzer.yaml`: Default inference configuration (image sizes, number of views, view selector, transformer depth, etc.).
 - `examples/`: Five curated multi-view sets for quick validation.
 - `third_party/gsplat/`: Differentiable Gaussian splatting ops (with our intrinsics-gradient support).
+- **[`DATASET_AND_TRAINING.md`](DATASET_AND_TRAINING.md)**: Detailed information about the model, training data requirements, and data format specifications.
 
 ## Quick Start
 
