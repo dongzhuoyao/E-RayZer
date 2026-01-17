@@ -45,7 +45,7 @@ From the training configuration in `config/erayzer.yaml` (check the file for cur
 
 The training process uses:
 - **Covisibility-based view selection** with curriculum learning
-- **Frame distance curriculum**: Starts with nearby views (min: 1.0, max: 1.0) and progresses to more distant views (min: 1.0, max: 0.5) over 86,000 iterations
+- **View selection curriculum**: Uses covisibility scores to select views. Curriculum progresses over 86K iterations, adjusting frame distance parameters (min_frame_dist: 1.0, max_frame_dist: 1.0→0.5) to control view selection strategy
 - **Random split**: Views are randomly split into input and target sets
 - **Domain randomization** to improve generalization
 
